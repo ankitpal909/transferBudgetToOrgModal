@@ -1,0 +1,53 @@
+.THIS .cCommentModal .ahm-comments-popover_firstRow {
+    position: absolute;
+    right: 90px;
+    top: 30px;
+}
+
+.THIS .ahm-notify-count {
+    background: rgb(255, 183, 93);
+    border-radius: 0.9rem;
+    padding: 0 5px 0 5px;
+    position: absolute;
+    top: -5px;
+    left: 15px;
+    font-size: 0.5rem;
+    font-weight: bold;
+}
+
+.THIS .ahm-width-50 {
+    width: 50%;
+}
+
+.THIS .ahm-tooltip> .ahm-tooltiptext {
+    visibility: hidden;
+    height: 0;
+    z-index : -1;	
+}
+
+.THIS .ahm-boxInput {
+    margin-top: -1.5em;
+}
+
+.THIS .ahm-tooltip:hover .ahm-tooltiptext {
+    visibility: visible;
+    position: absolute;
+    z-index: 1;
+    color: white;
+    bottom: 315%; 
+    transition-delay: 0.4s;   
+    white-space: normal;
+}
+
+.THIS .slds-line-height_reset {
+    line-height: 1.5rem;
+}
+
+.THIS .ahm-white_bgColor {
+    background-color: white;
+}
+
+.THIS .ahm-noCellOutline {
+  outline: none;
+  box-shadow: none !important;
+}

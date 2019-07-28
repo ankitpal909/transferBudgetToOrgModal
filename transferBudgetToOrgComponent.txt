@@ -1,0 +1,105 @@
+<aura:component >
+    <aura:attribute name="alreadySelectedOrgs" type="String[]" />
+    <aura:attribute name="budgetAllocationHistoryHelpTextType" type="String" default="Helptext : Budget Allocation History" />
+    <aura:attribute name="budgetAllocationHistoryHelpTextBorder" type="String" default="Hide" />
+    <aura:attribute name="infoMsg" type="String" default="Select the organization unit that you want to allocate the budget from.
+                                                          Selecting it would populate the organization units to which you can
+                                                          allocate the budget to." />
+    <aura:attribute name="autoAllocateActionVisibility" type="String" access="global" default="Show" />
+    <aura:attribute name="showSearchAddOrgUnitModal" type="Boolean" default="false" />
+    <aura:attribute name="autoAllocateHelpTextType" type="String" access="global" default="Helptext : Auto Allocate" />
+    <aura:attribute name="autoAllocateHelpTextVisibility" type="String" access="global" default="Show" />
+    <aura:attribute name="allocateFromOrgUnitData" type="Object" />
+    <aura:attribute name="budgetRecordTypeReturnTypes" type="object[]" default="[]" />
+    <aura:attribute name="allocateToOrgUnitList" type="Object[]" />
+    <aura:attribute name="budgetTransferObj" type="Object" />
+    <aura:attribute name="willHandleCompActions" type="String[]" default="['TRANSFER_BUDGET_SEARCH_ORG_DATA',
+                                                                          'TRANSFER_BUDGET_CHANGE_ORG_DATA',
+                                                                          'ADD_ORG_UNITS',
+                                                                          'ORG_UNIT_ON_DONE',
+                                                                          'HIDE_CONFIRMATION_MODAL']" />
+    <aura:attribute name="selectedBudgetView" type="String"/>
+    <aura:attribute name="showBudgetTransferModal" type="Boolean" default="true" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="amount" type="Decimal" default="4000.00" />
+    <aura:attribute name="count" type="Decimal" default="10.00" />
+    <aura:attribute name="selectedCurrency" type="String" />
+    <aura:attribute name="allocatedAmount" type="Decimal" default="0.00" />
+    <aura:attribute name="allocatedAmountList" type="List" />
+    <aura:attribute name="allocatedCount" type="Decimal" default="0.00" />
+    <aura:attribute name="budgetId" type="String" />
+    <aura:attribute name="orgUnitFieldsForLabels" type="String[]" default="['Name',
+    																		'Organization_Unit_Number__c',
+    																		'Organization_Unit_Sub_Type__c',
+                                                                            'Parent_Organization_Unit__c',
+                                                                            'Company__c',
+                                                                            'Region__c',
+                                                                            'Organization_Unit_Type__c']" />
+    <aura:attribute name="orgUnitLabels" type="Object" />
+    <aura:attribute name="context" type="String" />
+    <aura:attribute name="alignOrgUnitToBudget" type="Object" />
+    <aura:attribute name="showOnLoadSpinner" type="Boolean" default="true" />
+    <aura:attribute name="orgUnitContext" type="String" description="To differentiate between, event genereated
+                                                                     from change Org Unit or Search Org Unit" />
+    
+    
+    <!--Designer Attribute starts-->
+    <aura:attribute name="searchOrganizationUnitHelpTextType" 
+    				type="String" 
+    				access="global" 
+    				default="Helptext : Search Organziation Unit" />
+    <aura:attribute name="searchOrganizationUnitHelpTextVisibility" type="String" access="global" default="Show" />
+    <aura:attribute name="availableForLowerLevelSectionVisibility" type="String" access="global" />
+    <aura:attribute name="availableForLowerLevelFieldState" type="Boolean" access="global"/>
+    
+    <!--Designer Attribute End-->
+    
+    <lightning:layout>
+    		<lightning:layoutItem class="slds-p-top_large slds-col ahm-allocateToTextAlign">
+		        <div class="slds-grid">
+		            <span class="slds-text-title_bold slds-size_4-of-6 slds-p-top_medium" >
+		                ----Allocate To---Add Label
+		            </span>
+		            <div style="float:right" class="slds-p-right_small slds-m-left_large slds-grid">
+		                <span class="{#v.autoAllocateActionVisibility== 'Show' ? 'slds-p-right_small' : 'slds-hide'}">
+		                    <!--Layout for button and text End-->
+		                    <c:autoAllocateBudget aura:id="autoAllocateBudgetId"
+		                                          allocateToOrgUnitList="{!v.allocateToOrgUnitList}"
+		                                          autoAllocateHelpTextType="{#v.autoAllocateHelpTextType}"
+		                                          autoAllocateHelpTextVisibility="{#v.autoAllocateHelpTextVisibility}"/>
+		                </span>
+		                <span>
+		                    <lightning:button class="slds-truncate"
+		                                      aura:id="transferBudgetModal"
+		                                      variant="neutral"
+		                                      label="---Label Search Organization Unit---"
+		                                      onclick="{!c.searchOrgUnit}"/>
+		                </span>
+		            </div>
+		        </div>
+    </lightning:layoutItem>
+    </lightning:layout>
+    <!--Table Start-->
+    <c:AllocateBudgetToOrgTable allocateToOrgUnitList="{!v.allocateToOrgUnitList}" 
+    							selectedCurrency="{!v.selectedCurrency}" 
+                                availableForLowerLevelSectionVisibility="{#v.availableForLowerLevelSectionVisibility}"
+                                availableForLowerLevelFieldState="{#v.availableForLowerLevelFieldState}"/>           
+    <!--Table Start-->
+    
+    <!--      SEARCH ORG UNIT MODAL START -->
+    <!--     <aura:if isTrue="{!v.showSearchAddOrgUnitModal}"> -->
+    <!--         <c:SearchSelectOrganization aura:id="searchAddOrgUnit" -->
+    <!--                                     showSearchAddOrgUnitModal="{!v.showSearchAddOrgUnitModal}" -->
+    <!--                                     searchOrganizationUnitHelpTextType="{#v.searchOrganizationUnitHelpTextType}" -->
+    <!--                                     searchOrganizationUnitHelpTextVisibility="{#v.searchOrganizationUnitHelpTextVisibility}" -->
+    <!--                                     pageSize="5"              -->
+    <!--                                     pageNumber="1" -->
+    <!--                                     orgUnitLabels="{#v.orgUnitLabels}" -->
+    <!--                                     budgetId="{#v.budgetId}"     -->
+    <!--                                     context="{!v.context}" -->
+    <!--                                     infoMsg="{!v.infoMsg}" -->
+    <!--                                     /> -->
+    
+    <!--     </aura:if> -->
+    <!--  SEARCH ORG UNIT MODAL END -->
+</aura:component>

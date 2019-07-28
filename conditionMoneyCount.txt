@@ -1,0 +1,40 @@
+class="{!or(and(equals(v.budgetRecordTypeReturnTypes[0].value, 'Money'),
+                        			equals(v.budgetRecordTypeReturnTypes.length, 1)),                        
+                        			equals(v.budgetRecordTypeReturnTypes.length, 2)) ?
+									'' : 'slds-hide'}"
+class="{!or(and(equals(v.budgetRecordTypeReturnTypes[0].value, 'Count'),
+                        			equals(v.budgetRecordTypeReturnTypes.length, 1)),                        
+                        			equals(v.budgetRecordTypeReturnTypes.length, 2)) ?
+									'' : 'slds-hide'}"
+
+class="{!equals(v.budgetRecordTypeReturnTypes.length, 2) ? '' :
+		equals(v.budgetRecordTypeReturnTypes[0].value, 'Money') ?
+		'' : 'slds-hide'}"
+class="{!equals(v.budgetRecordTypeReturnTypes.length, 2) ? '' :
+		equals(v.budgetRecordTypeReturnTypes[0].value, 'Count') ?
+		'' : 'slds-hide'}"
+/*		
+class="{!and(equals(v.budgetRecordTypeReturnTypes.length, 1),
+			equals(v.budgetRecordTypeReturnTypes[0].value, 'Money')) ? 
+			'' : 'slds-hide'}"
+class="{!and(equals(v.budgetRecordTypeReturnTypes.length, 1),
+			equals(v.budgetRecordTypeReturnTypes[0].value, 'Count')) ? 
+			'' : 'slds-hide'}"
+			
+class="{!or(and(equals(v.budgetRecordTypeReturnTypes.length, 1),
+			equals(v.budgetRecordTypeReturnTypes[0].value, 'Money')),
+			equals(v.budgetRecordTypeReturnTypes.length>1)) ? 
+			'' : 'slds-hide'}"
+class="{!or(and(equals(v.budgetRecordTypeReturnTypes.length, 1),
+			equals(v.budgetRecordTypeReturnTypes[0].value, 'Count')),
+			equals(v.budgetRecordTypeReturnTypes.length>1)) ? 
+			'' : 'slds-hide'}"
+			
+class="{!equals(v.budgetRecordTypeReturnTypes.length, 2) ? 'ahm-tooltip slds-is-relative' :
+											 equals(v.budgetRecordTypeReturnTypes[0].value, 'Money') ? 
+                                            'ahm-tooltip slds-is-relative' : 'slds-hide'}"
+class="{!equals(v.budgetRecordTypeReturnTypes.length, 2) ? 'ahm-tooltip slds-is-relative' :
+											 equals(v.budgetRecordTypeReturnTypes[0].value, 'Count') ? 
+                                            'ahm-tooltip slds-is-relative' : 'slds-hide'}"											
+*/
+------------------------------------------------------------------------------------------------------------------------------------------
